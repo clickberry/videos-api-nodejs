@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "body-parser": "~1.12.4",
+    "busboy": "^0.2.11",
     "debug": "~2.2.0",
     "events": "^1.0.2",
     "express": "~4.12.4",
@@ -36,6 +37,7 @@
     "nsqjs": "^0.7.6",
     "passport": "^0.2.2",
     "passport-jwt": "^1.1.0",
+    "request": "^2.61.0",
     "util": "^0.10.3"
   }
 }
