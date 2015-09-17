@@ -1,6 +1,6 @@
 {
   "name": "clickberry-video-api",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "app.js",
   "description": "Video micro-service on Node.js",
   "scripts": {
@@ -25,12 +25,14 @@
     "url": "https://github.com/clickberry/video-api-nodejs/issues"
   },
   "dependencies": {
+    "async": "^1.4.2",
     "body-parser": "~1.12.4",
     "busboy": "^0.2.11",
     "debug": "~2.2.0",
     "events": "^1.0.2",
     "express": "~4.12.4",
     "jsonwebtoken": "^5.0.4",
+    "moment": "^2.10.6",
     "mongoose": "^4.1.1",
     "morgan": "~1.5.3",
     "nconf": "^0.7.1",

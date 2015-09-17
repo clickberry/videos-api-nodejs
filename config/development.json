@@ -1,8 +1,8 @@
 {
   "environment": "development",
-  "host":{
-    "name":"local.portal.com",
-    "port":"8080"
+  "host": {
+    "name": "local.portal.com",
+    "port": "8080"
   },
   "token": {
     "accessSecret": "my access secret key"
@@ -13,5 +13,8 @@
   "nsqd": {
     "address": "192.168.99.100",
     "port": "4150"
+  },
+  "shiva": {
+    "uri": "http://shiva.qa.clbr.ws/api/videos"
   }
 }
