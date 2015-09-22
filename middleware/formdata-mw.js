@@ -1,5 +1,4 @@
 var Busboy = require('busboy');
-var async = require('async');
 
 module.exports = function (fileCallback, qualityParamName, lengthParamName) {
     return function (req, res, next) {
@@ -15,8 +14,6 @@ module.exports = function (fileCallback, qualityParamName, lengthParamName) {
         req.formData.fields = {};
         req.formData.files = {};
         res.locals.files = {};
-
-        async.parallel({});
 
         busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
             isExistFile = true;

@@ -22,12 +22,11 @@ storageSpaceSchema.statics.createIfNotExist = function (userId, available, callb
             new: true
         },
         function (err, storageSpace) {
-            console.log(storageSpace);
             callback(err, storageSpace);
         });
 };
 
-storageSpaceSchema.statics.checkSpace = function (userId, size, used, callback) {
+storageSpaceSchema.statics.reserveSpace = function (userId, size, used, callback) {
     this.findOneAndUpdate(
         {
             userId: userId,
@@ -38,7 +37,22 @@ storageSpaceSchema.statics.checkSpace = function (userId, size, used, callback) 
         {
             new: true
         }, function (err, storageSpace) {
-            console.log(storageSpace);
+            callback(err, !!storageSpace);
+        });
+};
+
+storageSpaceSchema.statics.releaseSpace = function (userId, size, callback) {
+    this.findOneAndUpdate(
+        {
+            userId: userId,
+            available: {$gte: size}
+        },
+        {
+            $inc: {used: -1 * size}
+        },
+        {
+            new: true
+        }, function (err, storageSpace) {
             callback(err, !!storageSpace);
         });
 };
