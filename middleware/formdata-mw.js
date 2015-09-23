@@ -1,6 +1,7 @@
 var Busboy = require('busboy');
+var Q = require('q');
 
-module.exports = function (fileCallback, qualityParamName, lengthParamName) {
+module.exports = function () {
     return function (req, res, next) {
         var busboy = new Busboy({
             headers: req.headers,
@@ -10,48 +11,32 @@ module.exports = function (fileCallback, qualityParamName, lengthParamName) {
         });
 
         var isExistFile = false;
+        var fields = {};
+
+        var fieldsDeferred = Q.defer();
         req.formData = {};
-        req.formData.fields = {};
-        req.formData.files = {};
-        res.locals.files = {};
+        req.formData.fieldsPromise = fieldsDeferred.promise;
 
         busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
             isExistFile = true;
-            var contentLength = req[lengthParamName];
-            var quality = req[qualityParamName];
 
-            fileCallback(file, filename, quality, contentLength, function (err, result) {
-                if (err) {
-                    return next(err);
-                }
-
-                res.locals.files[fieldname] = result;
-                next();
-            });
+            req.formData.fileStream = file;
+            req.formData.fileName = filename;
+            next();
         });
 
         busboy.on('field', function (fieldname, val, fieldnameTruncated, valTruncated) {
-            req.formData.fields[fieldname] = val;
+            fields[fieldname] = val;
         });
 
         busboy.on('finish', function () {
             if (!isExistFile) {
                 next(new Error('Bad request. File is absent.'));
+            } else {
+                fieldsDeferred.resolve(fields);
             }
-        });
-
-        busboy.on('error', function (err) {
-            next(err);
         });
 
         req.pipe(busboy);
     };
 };
-
-function field(fieldname, val, req) {
-    req.formData.fields[fieldname] = val;
-}
-
-function file(fieldname, file, res) {
-    res.locals.files[fieldname] = data;
-}

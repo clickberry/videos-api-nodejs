@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var moment = require('moment');
+
 var Schema = mongoose.Schema;
 
 var videoSchema = new Schema({
@@ -18,5 +20,43 @@ var videoSchema = new Schema({
         uri: String
     }, {_id: false})]
 });
+
+videoSchema.statics.getVideo = function (userId, videoId, callback) {
+    this.findById(videoId, function (err, video) {
+        if (err) {
+            return callback(err);
+        }
+
+        if (!video) {
+            return callback(new Error('Not found video.'));
+        }
+
+        if (userId != video.userId) {
+            return callback(new Error('Forbidden video.'));
+        }
+
+        callback(null, video);
+    });
+};
+
+videoSchema.statics.create = function (userId, size, name, encodedVideo, callback) {
+    var Video = this;
+    var video = new Video();
+    video.userId = userId;
+    video.size = size;
+    video.name = name;
+    video.uri = encodedVideo.uri;
+    video.screenshots = encodedVideo.screenshots;
+    video.videos = encodedVideo.videos;
+    video.created = moment.utc();
+
+    video.save(function (err) {
+        if (err) {
+            return callback(err);
+        }
+
+        callback(null, video);
+    });
+};
 
 module.exports = mongoose.model('Video', videoSchema);

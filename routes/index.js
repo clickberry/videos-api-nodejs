@@ -1,19 +1,15 @@
 var express = require('express');
 
-var videoMw = require('../middleware/video-mw');
 var parser = require('../middleware/parser-mw');
 var formdata = require('../middleware/formdata-mw');
-var permission = require('../middleware/permission-mw')('payload');
 
-var encoder = require('../lib/encoder-service');
-var blob=require('../lib/blob-service');
+var videoService = require('../lib/video-service');
 
 var Video = require('../models/video');
-var Filter = require('../models/filter');
-var StorageSpace=require('../models/storage-space');
+var StorageSpace = require('../models/storage-space');
 
-//var Bus = require('../lib/bus-service');
-//var bus = new Bus({});
+var Bus = require('../lib/bus-service');
+var bus = new Bus({});
 
 var router = express.Router();
 
@@ -26,14 +22,25 @@ module.exports = function (passport) {
         passport.authenticate('access-token', {session: false, assignProperty: 'payload'}),
         parser.contentLength('contentLength'),
         parser.quality('quality'),
-        videoMw.reserveSpace('payload', 'contentLength'),
-        formdata(encoder.upload, 'quality', 'contentLength'),
-        videoMw.update('payload', 'contentLength'),
+        formdata(),
         function (req, res, next) {
-            var videoDto = videoMapper(req.video);
+            var userId = req.payload.userId;
+            var size = req.contentLength;
+            var quality = req.quality;
+            var formData = req.formData;
 
-            res.status(201);
-            res.send(videoDto);
+            videoService.upload(userId, size, quality, formData, function (err, video) {
+                if (err) {
+                    return next(err);
+                }
+
+                var videoDto = videoMapper(video);
+
+                bus.publishVideoUpload(videoDto);
+
+                res.status(201);
+                res.send(videoDto);
+            });
         });
 
     router.get('/',
@@ -53,38 +60,35 @@ module.exports = function (passport) {
 
     router.get('/:videoId',
         passport.authenticate('access-token', {session: false, assignProperty: 'payload'}),
-        permission.checkOwner,
-        function (req, res, next) {
-            var videoDto = videoMapper(req.video);
-
-            res.send(videoDto);
-        });
-
-    router.delete('/:videoId',
-        passport.authenticate('access-token', {session: false, assignProperty: 'payload'}),
-        permission.checkOwner,
         function (req, res, next) {
             var userId = req.payload.userId;
-            var video = req.video;
+            var videoId = req.params.videoId;
 
-            blob.delete(video, function(err){
+            Video.getVideo(userId, videoId, function (err, video) {
                 if (err) {
                     return next(err);
                 }
 
-                video.remove(function (err) {
-                    if (err) {
-                        return next(err);
-                    }
+                var videoDto = videoMapper(video);
 
-                    StorageSpace.releaseSpace(userId, video.size, function (err, result) {
-                        if (err) {
-                            return next(err);
-                        }
+                res.send(videoDto);
+            });
+        });
 
-                        res.sendStatus(200);
-                    });
-                });
+    router.delete('/:videoId',
+        passport.authenticate('access-token', {session: false, assignProperty: 'payload'}),
+        function (req, res, next) {
+            var userId = req.payload.userId;
+            var videoId = req.params.videoId;
+
+            videoService.remove(userId, videoId, function (err) {
+                if (err) {
+                    return next(err);
+                }
+
+                bus.publishVideoRemove({videoId: videoId});
+
+                res.sendStatus(200);
             });
         });
 
@@ -95,8 +99,10 @@ function videoMapper(video) {
     return {
         id: video._id,
         userId: video.userId,
+        name: video.name,
         created: video.created,
         videos: video.videos,
         screenshots: video.screenshots
     };
 }
+
