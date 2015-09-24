@@ -72,14 +72,20 @@ delete-removes | {videoId: *videoId*} | Video ID.
 | available     | Total available storage space |
 | used     | Total used storage space |
 
-## POST /
-Adds video for encoding.
+## POST /?quality
+Adds video for encoding with specific quantities. If quality param is set for ezample *?quality=S480,S720*, then video will send to encoder with this quality params.
 
 ### Request
 #### Header
 | Param   | Value |
 |----------|-------------|
 | Authorization     | "JWT [accessToken]" |
+
+### Query Param
+| Param    | Description |
+|----------|-------------|
+| quality    | String with [qualities](https://github.com/clickberry/video-encoder/wiki/Video%20Quality%20Enum) separated comma.        |
+
 #### Body (multipart/form-data)
 | Param    | Description |
 |----------|-------------|
@@ -136,12 +142,6 @@ Remove user video by id.
 |------------|--------------------------------------------------------------------|
 | StatusCode | 200                                                            |
 
-### Response
-| HTTP       |      Value                                                         |
-|------------|--------------------------------------------------------------------|
-| StatusCode | 200                                                            |
-| Body | [Video Dto](#video-dto)                                                             |
-
 ## GET /storage/available
 Get info about user video storage.
 
@@ -155,4 +155,7 @@ Get info about user video storage.
 | HTTP       |      Value                                                         |
 |------------|--------------------------------------------------------------------|
 | StatusCode | 200                                                            |
-| Body | [Storage Dto](#storage-dto)       
+| Body | [Storage Dto](#storage-dto) |
+
+# License
+Source code is under GNU GPL v3 [license](LICENSE).
