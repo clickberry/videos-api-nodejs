@@ -1,6 +1,6 @@
 {
   "name": "clickberry-video-api",
-  "version": "0.1.4",
+  "version": "0.1.7",
   "main": "app.js",
   "description": "Video micro-service on Node.js",
   "scripts": {
