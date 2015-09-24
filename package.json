@@ -1,8 +1,8 @@
 {
-  "name": "clickberry-video-api",
+  "name": "clickberry-videos-api",
   "version": "0.1.7",
   "main": "app.js",
-  "description": "Video micro-service on Node.js",
+  "description": "Videos micro-service on Node.js",
   "scripts": {
     "start": "node ./bin/www",
     "test": "mocha"
@@ -18,11 +18,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/clickberry/video-api-nodejs"
+    "url": "https://github.com/clickberry/videos-api-nodejs"
   },
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/clickberry/video-api-nodejs/issues"
+    "url": "https://github.com/clickberry/videos-api-nodejs/issues"
   },
   "dependencies": {
     "aws-sdk": "^2.2.4",

@@ -18,7 +18,7 @@ module.exports = function (passport) {
         res.send();
     });
 
-    router.post('/upload',
+    router.post('/',
         passport.authenticate('access-token', {session: false, assignProperty: 'payload'}),
         parser.contentLength('contentLength'),
         parser.quality('quality'),
@@ -92,6 +92,22 @@ module.exports = function (passport) {
             });
         });
 
+    router.get('/storage/available',
+        passport.authenticate('access-token', {session: false, assignProperty: 'payload'}),
+        function (req, res, next) {
+            var userId = req.payload.userId;
+
+           StorageSpace.findOne({userId: userId}, function(err, storageSpace){
+               if(err){
+                   return next(err);
+               }
+
+               var storageDto=storageMapper(storageSpace);
+               res.send(storageDto);
+           });
+
+        });
+
     return router;
 };
 
@@ -103,6 +119,14 @@ function videoMapper(video) {
         created: video.created,
         videos: video.videos,
         screenshots: video.screenshots
+    };
+}
+
+function storageMapper(storageSpace){
+    return {
+        userId: storageSpace.userId,
+        available: storageSpace.available,
+        used: storageSpace.used
     };
 }
 
