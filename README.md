@@ -63,16 +63,29 @@ delete-removes | {videoId: *videoId*} | Video ID.
 | Param   | Description |
 |----------|-------------|
 | contentType     | Content type such ass *video/mp4* or *video/webm*|
-| uri     | Uri of encoding video|
+| uri     | Uri of encoding screenshot|
 
-## POST /upload
-Adds comment to relation entity.
+### Storage Dto
+| Param   | Description |
+|----------|-------------|
+| userId     | Owner user ID|
+| available     | Total available storage space |
+| used     | Total used storage space |
+
+## POST /?quality
+Adds video for encoding with specific quantities. If quality param is set for ezample *?quality=S480,S720*, then video will send to encoder with this quality params.
 
 ### Request
 #### Header
 | Param   | Value |
 |----------|-------------|
 | Authorization     | "JWT [accessToken]" |
+
+### Query Param
+| Param    | Description |
+|----------|-------------|
+| quality    | String with [qualities](https://github.com/clickberry/video-encoder/wiki/Video%20Quality%20Enum) separated comma.        |
+
 #### Body (multipart/form-data)
 | Param    | Description |
 |----------|-------------|
@@ -84,3 +97,65 @@ Adds comment to relation entity.
 |------------|--------------------------------------------------------------------|
 | StatusCode | 201                                                                |
 | Body |  [Video Dto](#video-dto)                                                             |
+
+## GET /
+Get all user videos.
+
+### Request
+#### Header
+| Param   | Value |
+|----------|-------------|
+| Authorization     | "JWT [accessToken]" |
+
+### Response
+| HTTP       |      Value                                                         |
+|------------|--------------------------------------------------------------------|
+| StatusCode | 200                                                            |
+| Body | List of [Video Dto](#video-dto)                                                             |
+
+## GET /:videoId
+Get user video by id.
+
+### Request
+#### Header
+| Param   | Value |
+|----------|-------------|
+| Authorization     | "JWT [accessToken]" |
+
+### Response
+| HTTP       |      Value                                                         |
+|------------|--------------------------------------------------------------------|
+| StatusCode | 200                                                            |
+| Body | [Video Dto](#video-dto)                                                             |
+
+## DELETE /:videoId
+Remove user video by id.
+
+### Request
+#### Header
+| Param   | Value |
+|----------|-------------|
+| Authorization     | "JWT [accessToken]" |
+
+### Response
+| HTTP       |      Value                                                         |
+|------------|--------------------------------------------------------------------|
+| StatusCode | 200                                                            |
+
+## GET /storage/available
+Get info about user video storage.
+
+### Request
+#### Header
+| Param   | Value |
+|----------|-------------|
+| Authorization     | "JWT [accessToken]" |
+
+### Response
+| HTTP       |      Value                                                         |
+|------------|--------------------------------------------------------------------|
+| StatusCode | 200                                                            |
+| Body | [Storage Dto](#storage-dto) |
+
+# License
+Source code is under GNU GPL v3 [license](LICENSE).
