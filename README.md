@@ -65,8 +65,15 @@ delete-removes | {videoId: *videoId*} | Video ID.
 | contentType     | Content type such ass *video/mp4* or *video/webm*|
 | uri     | Uri of encoding screenshot|
 
-## POST /upload
-Adds comment to relation entity.
+### Storage Dto
+| Param   | Description |
+|----------|-------------|
+| userId     | Owner user ID|
+| available     | Total available storage space |
+| used     | Total used storage space |
+
+## POST /
+Adds video for encoding.
 
 ### Request
 #### Header
@@ -84,3 +91,68 @@ Adds comment to relation entity.
 |------------|--------------------------------------------------------------------|
 | StatusCode | 201                                                                |
 | Body |  [Video Dto](#video-dto)                                                             |
+
+## GET /
+Get all user videos.
+
+### Request
+#### Header
+| Param   | Value |
+|----------|-------------|
+| Authorization     | "JWT [accessToken]" |
+
+### Response
+| HTTP       |      Value                                                         |
+|------------|--------------------------------------------------------------------|
+| StatusCode | 200                                                            |
+| Body | List of [Video Dto](#video-dto)                                                             |
+
+## GET /:videoId
+Get user video by id.
+
+### Request
+#### Header
+| Param   | Value |
+|----------|-------------|
+| Authorization     | "JWT [accessToken]" |
+
+### Response
+| HTTP       |      Value                                                         |
+|------------|--------------------------------------------------------------------|
+| StatusCode | 200                                                            |
+| Body | [Video Dto](#video-dto)                                                             |
+
+## DELETE /:videoId
+Remove user video by id.
+
+### Request
+#### Header
+| Param   | Value |
+|----------|-------------|
+| Authorization     | "JWT [accessToken]" |
+
+### Response
+| HTTP       |      Value                                                         |
+|------------|--------------------------------------------------------------------|
+| StatusCode | 200                                                            |
+
+### Response
+| HTTP       |      Value                                                         |
+|------------|--------------------------------------------------------------------|
+| StatusCode | 200                                                            |
+| Body | [Video Dto](#video-dto)                                                             |
+
+## GET /storage/available
+Get info about user video storage.
+
+### Request
+#### Header
+| Param   | Value |
+|----------|-------------|
+| Authorization     | "JWT [accessToken]" |
+
+### Response
+| HTTP       |      Value                                                         |
+|------------|--------------------------------------------------------------------|
+| StatusCode | 200                                                            |
+| Body | [Storage Dto](#storage-dto)       
