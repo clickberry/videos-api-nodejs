@@ -63,7 +63,7 @@ delete-removes | {videoId: *videoId*} | Video ID.
 | Param   | Description |
 |----------|-------------|
 | contentType     | Content type such ass *video/mp4* or *video/webm*|
-| uri     | Uri of encoding video|
+| uri     | Uri of encoding screenshot|
 
 ## POST /upload
 Adds comment to relation entity.
