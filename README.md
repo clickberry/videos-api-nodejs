@@ -36,10 +36,35 @@ The service generates events to the Bus (messaging service) in response to API r
 
 Topic | Message | Description
 :-- | :-- | :--
-upload-videos | *Encoding video info* | Upload video.
+upload-videos | [Video Dto](###Video Dto) | Upload video.
 delete-removes | {videoId: *videoId*} | Video ID.
 
 # API
+## DTO
+### Video Dto
+| Param   | Description |
+|----------|-------------|
+| id     | Video ID|
+| userId     | Owner user ID|
+| name     | Name of video|
+| created     | Date of uploaded video|
+| videos     | List of [Encoded videos](###Encodeded Video Dto)|
+| screenshots     | List of [Encoded screenshots](###Encodeded Screenshot Dto)|
+
+### Encodeded Video Dto
+| Param   | Description |
+|----------|-------------|
+| contentType     | Content type such ass *video/mp4* or *video/webm*|
+| uri     | Uri of encoding video|
+| width     | Width of video frame|
+| height     | Height of video frame |
+
+### Encodeded Screenshot Dto
+| Param   | Description |
+|----------|-------------|
+| contentType     | Content type such ass *video/mp4* or *video/webm*|
+| uri     | Uri of encoding video|
+
 ## POST /upload
 Adds comment to relation entity.
 
@@ -58,4 +83,4 @@ Adds comment to relation entity.
 | HTTP       |      Value                                                         |
 |------------|--------------------------------------------------------------------|
 | StatusCode | 201                                                                |
-| Body |  *Encoding video info*                                                                |
+| Body |  [Video Dto](###Video Dto)                                                             |
