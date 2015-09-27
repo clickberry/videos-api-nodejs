@@ -1,5 +1,5 @@
 # Dockerized Videos API
-Videos micro-service on Node.js. This micro-service for add and encoding videos.
+Videos encoding proxy micro-service on Node.js. This micro-service is for add videos for encoding/transcoding.
 
 * [Architecture](#architecture)
 * [Technologies](#technologies)
