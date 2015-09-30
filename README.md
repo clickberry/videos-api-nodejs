@@ -59,12 +59,14 @@ video-removes | {videoId: *videoId*} | Video ID.
 | uri     | Uri of encoding video|
 | width     | Width of video frame|
 | height     | Height of video frame |
+| sign     | Uri signature. **Only for response**|
 
 ### Encodeded Screenshot Dto
 | Param   | Description |
 |----------|-------------|
 | contentType     | Content type such as *video/mp4* or *video/webm*|
 | uri     | Uri of encoding screenshot|
+| sign     | Uri signature. **Only for response**|
 
 ### Storage Dto
 | Param   | Description |
