@@ -7,6 +7,9 @@
   "token": {
     "accessSecret": "my access secret key"
   },
+  "sign": {
+    "secret": "signature secret"
+  },
   "mongodb": {
     "connection": "mongodb://localhost/tmp-base"
   },

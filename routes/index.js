@@ -1,9 +1,12 @@
 var express = require('express');
 
+var config = require('../config');
 var parser = require('../middleware/parser-mw');
 var formdata = require('../middleware/formdata-mw');
 
 var videoService = require('../lib/video-service');
+var Signature = require('../lib/signature');
+var signature = new Signature(config.get('sign:secret'));
 
 var Video = require('../models/video');
 var StorageSpace = require('../models/storage-space');
@@ -35,7 +38,6 @@ module.exports = function (passport) {
                 }
 
                 var videoDto = videoMapper(video);
-
                 bus.publishVideoUpload(videoDto);
 
                 res.status(201);
@@ -97,14 +99,14 @@ module.exports = function (passport) {
         function (req, res, next) {
             var userId = req.payload.userId;
 
-           StorageSpace.findOne({userId: userId}, function(err, storageSpace){
-               if(err){
-                   return next(err);
-               }
+            StorageSpace.findOne({userId: userId}, function (err, storageSpace) {
+                if (err) {
+                    return next(err);
+                }
 
-               var storageDto=storageMapper(storageSpace);
-               res.send(storageDto);
-           });
+                var storageDto = storageMapper(storageSpace);
+                res.send(storageDto);
+            });
 
         });
 
@@ -112,21 +114,41 @@ module.exports = function (passport) {
 };
 
 function videoMapper(video) {
+    var encodedVideos= video.videos.map(encodedVideoMapper);
+    var encodedScreenshots=video.screenshots.map(encodedScreenshotMapper);
+
     return {
         id: video._id,
         userId: video.userId,
         name: video.name,
         created: video.created,
-        videos: video.videos,
-        screenshots: video.screenshots
+        videos:encodedVideos,
+        screenshots: encodedScreenshots
     };
 }
 
-function storageMapper(storageSpace){
+function encodedVideoMapper(encodedVideo){
+    return{
+        contentType: encodedVideo.contentType,
+        uri: encodedVideo.uri,
+        height: encodedVideo.height,
+        width: encodedVideo.width,
+        sign: signature.sign(encodedVideo.uri)
+    };
+}
+
+function encodedScreenshotMapper(encodedScreenshot){
+    return{
+        contentType: encodedScreenshot.contentType,
+        uri: encodedScreenshot.uri,
+        sign: signature.sign(encodedScreenshot.uri)
+    };
+}
+
+function storageMapper(storageSpace) {
     return {
         userId: storageSpace.userId,
         available: storageSpace.available,
         used: storageSpace.used
     };
 }
-
