@@ -38,10 +38,14 @@ module.exports = function (passport) {
                 }
 
                 var videoDto = videoMapper(video);
-                bus.publishVideoUpload(videoDto);
+                bus.publishVideoUpload(videoDto, function(err){
+                    if (err) {
+                        return next(err);
+                    }
 
-                res.status(201);
-                res.send(videoDto);
+                    res.status(201);
+                    res.send(videoDto);
+                });
             });
         });
 
@@ -88,9 +92,13 @@ module.exports = function (passport) {
                     return next(err);
                 }
 
-                bus.publishVideoRemove({videoId: videoId});
+                bus.publishVideoRemove({videoId: videoId}, function(err){
+                    if (err) {
+                        return next(err);
+                    }
 
-                res.sendStatus(200);
+                    res.sendStatus(200);
+                });
             });
         });
 
