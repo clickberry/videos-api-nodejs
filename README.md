@@ -1,5 +1,5 @@
 # Dockerized Videos API
-Videos encoding proxy micro-service on Node.js. This micro-service is for add videos for encoding/transcoding.
+Videos encoding micro-service on Node.js. This micro-service is for add videos for encoding/transcoding.
 
 * [Architecture](#architecture)
 * [Technologies](#technologies)
@@ -28,12 +28,12 @@ TOKEN_ACCESSSECRET | MDdDRDhBOD*** | Access token secret.
 NSQD_ADDRESS | bus.yourdomain.com | A hostname or an IP address of the NSQD running instance.
 NSQD_PORT | 4150 | A TCP port number of the NSQD running instance to publish events.
 ENCODER_URI | http://[encoder_uri]/[api_upload_path] | Uri of [Shiva](https://github.com/clickberry/video-encoder) encoder for uploading video.
+SIGN_SECRET | MDdDRDhBOD*** | Sekret key for signing videos and screenshots URI-s.
 
 # Events
 The service generates events to the Bus (messaging service) in response to API requests.
 
 ## Send events
-
 Topic | Message | Description
 :-- | :-- | :--
 video-uploads | [Video Dto](#video-dto) | Upload video.
@@ -41,6 +41,7 @@ video-removes | {videoId: *videoId*} | Video ID.
 
 # API
 ## DTO
+
 ### Video Dto
 | Param   | Description |
 |----------|-------------|
@@ -54,7 +55,7 @@ video-removes | {videoId: *videoId*} | Video ID.
 ### Encodeded Video Dto
 | Param   | Description |
 |----------|-------------|
-| contentType     | Content type such ass *video/mp4* or *video/webm*|
+| contentType     | Content type such as *video/mp4* or *video/webm*|
 | uri     | Uri of encoding video|
 | width     | Width of video frame|
 | height     | Height of video frame |
@@ -62,7 +63,7 @@ video-removes | {videoId: *videoId*} | Video ID.
 ### Encodeded Screenshot Dto
 | Param   | Description |
 |----------|-------------|
-| contentType     | Content type such ass *video/mp4* or *video/webm*|
+| contentType     | Content type such as *video/mp4* or *video/webm*|
 | uri     | Uri of encoding screenshot|
 
 ### Storage Dto
