@@ -50,7 +50,7 @@ video-removes | {videoId: *videoId*} | Video ID.
 | name     | Name of video|
 | created     | Date of uploaded video|
 | videos     | List of [Encoded videos](#encodeded-video-dto)|
-| screenshots     | List of [Encoded screenshots](#ncodeded-screenshot-dto)|
+| screenshots     | List of [Encoded screenshots](#encodeded-screenshot-dto)|
 
 ### Encodeded Video Dto
 | Param   | Description |
