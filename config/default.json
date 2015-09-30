@@ -1,5 +1,5 @@
 {
   "protocol": "http",
-  "port": "8081",
+  "port": "8080",
   "storageSize": 1073741824
 }
