@@ -1,6 +1,6 @@
 {
   "name": "clickberry-videos-api",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "main": "app.js",
   "description": "Videos micro-service on Node.js",
   "scripts": {
@@ -41,6 +41,7 @@
     "passport-jwt": "^1.1.0",
     "q": "^1.4.1",
     "request": "^2.61.0",
-    "util": "^0.10.3"
+    "util": "^0.10.3",
+    "clickberry-http-errors": "https://github.com/clickberry/http-errors-nodejs.git#master"
   }
 }
