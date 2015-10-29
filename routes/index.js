@@ -34,6 +34,7 @@ module.exports = function (passport) {
 
             videoService.upload(userId, size, quality, formData, function (err, video) {
                 if (err) {
+                    formData.fileStream.resume();
                     return next(err);
                 }
 

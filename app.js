@@ -41,6 +41,8 @@ if (app.get('env') === 'development') {
             console.log(err.message);
             console.log(err.stack);
         }
+
+        console.log('hello error!');
         res.send({
             message: err.message,
             error: {}
