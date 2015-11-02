@@ -13,6 +13,9 @@ require('./config/passport/jwt-passport')(passport);
 
 var app = express();
 
+// Configure CORS
+app.use(require('cors')({allowedHeaders: 'Authorization, Content-Type'}));
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));

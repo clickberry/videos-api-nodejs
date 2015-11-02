@@ -1,6 +1,6 @@
 {
   "name": "clickberry-videos-api",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "main": "app.js",
   "description": "Videos micro-service on Node.js",
   "scripts": {
@@ -28,6 +28,8 @@
     "aws-sdk": "^2.2.4",
     "body-parser": "~1.12.4",
     "busboy": "^0.2.11",
+    "clickberry-http-errors": "clickberry/http-errors-nodejs.git#master",
+    "cors": "^2.7.1",
     "debug": "~2.2.0",
     "events": "^1.0.2",
     "express": "~4.12.4",
@@ -41,7 +43,6 @@
     "passport-jwt": "^1.1.0",
     "q": "^1.4.1",
     "request": "^2.61.0",
-    "util": "^0.10.3",
-    "clickberry-http-errors": "clickberry/http-errors-nodejs.git#master"
+    "util": "^0.10.3"
   }
 }
