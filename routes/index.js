@@ -14,6 +14,8 @@ var StorageSpace = require('../models/storage-space');
 var Bus = require('../lib/bus-service');
 var bus = new Bus({});
 
+var error=require('clickberry-http-errors');
+
 var router = express.Router();
 
 module.exports = function (passport) {
@@ -111,6 +113,10 @@ module.exports = function (passport) {
             StorageSpace.findOne({userId: userId}, function (err, storageSpace) {
                 if (err) {
                     return next(err);
+                }
+
+                if(!storageSpace){
+                    return next(new error.NotFound())
                 }
 
                 var storageDto = storageMapper(storageSpace);

@@ -7,7 +7,21 @@ var mongoose = require('mongoose');
 var config = require('./config');
 var routes = require('./routes/index')(passport);
 
-mongoose.connect(config.get('mongodb:connection'));
+var options = {
+    server: {
+        socketOptions: {
+            keepAlive: 1,
+            connectTimeoutMS: 30000
+        }
+    },
+    replset: {
+        socketOptions: {
+            keepAlive: 1,
+            connectTimeoutMS: 30000
+        }
+    }
+};
+mongoose.connect(config.get('mongodb:connection'), options);
 
 require('./config/passport/jwt-passport')(passport);
 
@@ -40,18 +54,17 @@ app.use(function (req, res, next) {
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
         res.status(err.status || 500);
-        if(res.statusCode===500){
+        if (res.statusCode === 500) {
             console.log(err.message);
             console.log(err.stack);
         }
 
-        console.log('hello error!');
         res.send({
             message: err.message,
             error: {}
         });
     });
-}else {
+} else {
 // production error handler
 // no stacktraces leaked to user
     app.use(function (err, req, res, next) {
