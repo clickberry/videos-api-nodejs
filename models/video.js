@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var moment = require('moment');
+var error = require('clickberry-http-errors');
 
 var Schema = mongoose.Schema;
 
@@ -28,11 +29,11 @@ videoSchema.statics.getVideo = function (userId, videoId, callback) {
         }
 
         if (!video) {
-            return callback(new Error('Not found video.'));
+            return callback(new error.NotFound());
         }
 
         if (userId != video.userId) {
-            return callback(new Error('Forbidden video.'));
+            return callback(new error.Forbidden());
         }
 
         callback(null, video);

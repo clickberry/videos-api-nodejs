@@ -1,5 +1,6 @@
 var Busboy = require('busboy');
 var Q = require('q');
+var error = require('clickberry-http-errors');
 
 module.exports = function () {
     return function (req, res, next) {
@@ -31,7 +32,7 @@ module.exports = function () {
 
         busboy.on('finish', function () {
             if (!isExistFile) {
-                next(new Error('Bad request. File is absent.'));
+                next(new error.BadRequest());
             } else {
                 fieldsDeferred.resolve(fields);
             }

@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var error = require('clickberry-http-errors');
 var config=require('../config');
 
 var storageSpaceSchema = mongoose.Schema({
@@ -19,7 +20,7 @@ storageSpaceSchema.statics.reserveSpace = function (userId, size, callback) {
             }
 
             if (!result) {
-                callback(new Error('Bad request. Not enough storage space.'))
+                callback(new error.BadRequest())
             } else {
                 callback();
             }

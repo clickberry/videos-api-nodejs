@@ -14,7 +14,7 @@ var StorageSpace = require('../models/storage-space');
 var Bus = require('../lib/bus-service');
 var bus = new Bus({});
 
-var error=require('clickberry-http-errors');
+var error = require('clickberry-http-errors');
 
 var router = express.Router();
 
@@ -41,7 +41,7 @@ module.exports = function (passport) {
                 }
 
                 var videoDto = videoMapper(video);
-                bus.publishVideoUpload(videoDto, function(err){
+                bus.publishVideoUpload(videoDto, function (err) {
                     if (err) {
                         return next(err);
                     }
@@ -95,7 +95,7 @@ module.exports = function (passport) {
                     return next(err);
                 }
 
-                bus.publishVideoRemove({videoId: videoId}, function(err){
+                bus.publishVideoRemove({videoId: videoId}, function (err) {
                     if (err) {
                         return next(err);
                     }
@@ -115,7 +115,7 @@ module.exports = function (passport) {
                     return next(err);
                 }
 
-                if(!storageSpace){
+                if (!storageSpace) {
                     return next(new error.NotFound())
                 }
 
@@ -129,21 +129,21 @@ module.exports = function (passport) {
 };
 
 function videoMapper(video) {
-    var encodedVideos= video.videos.map(encodedVideoMapper);
-    var encodedScreenshots=video.screenshots.map(encodedScreenshotMapper);
+    var encodedVideos = video.videos.map(encodedVideoMapper);
+    var encodedScreenshots = video.screenshots.map(encodedScreenshotMapper);
 
     return {
         id: video._id,
         userId: video.userId,
         name: video.name,
         created: video.created,
-        videos:encodedVideos,
+        videos: encodedVideos,
         screenshots: encodedScreenshots
     };
 }
 
-function encodedVideoMapper(encodedVideo){
-    return{
+function encodedVideoMapper(encodedVideo) {
+    return {
         contentType: encodedVideo.contentType,
         uri: encodedVideo.uri,
         height: encodedVideo.height,
@@ -152,8 +152,8 @@ function encodedVideoMapper(encodedVideo){
     };
 }
 
-function encodedScreenshotMapper(encodedScreenshot){
-    return{
+function encodedScreenshotMapper(encodedScreenshot) {
+    return {
         contentType: encodedScreenshot.contentType,
         uri: encodedScreenshot.uri,
         sign: signature.sign(encodedScreenshot.uri)
