@@ -38,6 +38,15 @@ module.exports = function () {
             }
         });
 
+        busboy.on('error', function(err){
+            console.log(err);
+            if(req.formData.fileStream){
+                console.log('FileStream is exist.')
+                req.formData.fileStream.resume();
+            }
+            return next(new error.BadRequest(err.message));
+        });
+
         req.pipe(busboy);
     };
 };
