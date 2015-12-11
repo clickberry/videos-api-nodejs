@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var error = require('clickberry-http-errors');
-var config=require('../config');
+var config = require('clickberry-config');
 
 var storageSpaceSchema = mongoose.Schema({
     userId: String,

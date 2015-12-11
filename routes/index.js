@@ -1,6 +1,7 @@
 var express = require('express');
+var error = require('clickberry-http-errors');
+var config = require('clickberry-config');
 
-var config = require('../config');
 var parser = require('../middleware/parser-mw');
 var formdata = require('../middleware/formdata-mw');
 
@@ -12,9 +13,16 @@ var Video = require('../models/video');
 var StorageSpace = require('../models/storage-space');
 
 var Bus = require('../lib/bus-service');
-var bus = new Bus({});
+var bus = new Bus({
+    mode: config.get('node:env'),
+    address: config.get('nsqd:address'),
+    port: config.getInt('nsqd:port')
+});
 
-var error = require('clickberry-http-errors');
+bus.on('reconnect_failed', function (err) {
+    console.log(err);
+    process.exit(1);
+});
 
 var router = express.Router();
 

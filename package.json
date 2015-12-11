@@ -1,6 +1,6 @@
 {
   "name": "clickberry-videos-api",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "main": "app.js",
   "description": "Videos micro-service on Node.js",
   "scripts": {
@@ -29,6 +29,8 @@
     "body-parser": "~1.12.4",
     "busboy": "^0.2.11",
     "clickberry-http-errors": "clickberry/http-errors-nodejs.git#master",
+    "clickberry-nsq-publisher": "https://github.com/clickberry/nsq-publisher-nodejs#master",
+    "clickberry-config": "https://github.com/clickberry/config-nodejs#master",
     "cors": "^2.7.1",
     "debug": "~2.2.0",
     "events": "^1.0.2",
@@ -37,8 +39,6 @@
     "moment": "^2.10.6",
     "mongoose": "^4.1.1",
     "morgan": "~1.5.3",
-    "nconf": "^0.7.1",
-    "nsqjs": "^0.7.6",
     "passport": "^0.2.2",
     "passport-jwt": "^1.1.0",
     "q": "^1.4.1",
