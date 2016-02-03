@@ -1,8 +1,4 @@
 {
-  "host": {
-    "name": "local.portal.com",
-    "port": "8080"
-  },
   "token": {
     "accessSecret": "my access secret key"
   },

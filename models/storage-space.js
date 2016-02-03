@@ -31,8 +31,7 @@ storageSpaceSchema.statics.reserveSpace = function (userId, size, callback) {
 storageSpaceSchema.statics.releaseSpace = function (userId, size, callback) {
     StorageSpace.findOneAndUpdate(
         {
-            userId: userId,
-            available: {$gte: size}
+            userId: userId
         },
         {
             $inc: {used: -1 * size}

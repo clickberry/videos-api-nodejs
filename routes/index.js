@@ -14,7 +14,7 @@ var StorageSpace = require('../models/storage-space');
 
 var Bus = require('../lib/bus-service');
 var bus = new Bus({
-    mode: config.get('node:env'),
+    //mode: config.get('node:env'),
     address: config.get('nsqd:address'),
     port: config.getInt('nsqd:port')
 });
@@ -98,12 +98,12 @@ module.exports = function (passport) {
             var userId = req.payload.userId;
             var videoId = req.params.videoId;
 
-            videoService.remove(userId, videoId, function (err) {
+            videoService.remove(userId, videoId, function (err, video) {
                 if (err) {
                     return next(err);
                 }
 
-                bus.publishVideoRemove({videoId: videoId}, function (err) {
+                bus.publishVideoRemove({id: videoId, userId: userId, size: video.size}, function (err) {
                     if (err) {
                         return next(err);
                     }
@@ -144,6 +144,7 @@ function videoMapper(video) {
         id: video._id,
         userId: video.userId,
         name: video.name,
+        size: video.size,
         created: video.created,
         videos: encodedVideos,
         screenshots: encodedScreenshots
