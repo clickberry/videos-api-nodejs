@@ -38,7 +38,8 @@ The service generates events to the Bus (messaging service) in response to API r
 Topic | Message | Description
 :-- | :-- | :--
 video-creates | [Video Dto](#video-dto) | Upload video.
-video-deletes | {videoId: *videoId*} | Video ID.
+video-deletes | {videoId: *videoId*, userId: *user_id*, size: *size_in_bytes*} | Deleted video.
+video-storage-updates | [Storage Dto](#storage-dto) | Updated storage space.
 
 # API
 ## DTO
