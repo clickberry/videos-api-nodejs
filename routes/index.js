@@ -42,14 +42,15 @@ module.exports = function (passport) {
             var quality = req.quality;
             var formData = req.formData;
 
-            videoService.upload(userId, size, quality, formData, function (err, video) {
+            videoService.upload(userId, size, quality, formData, function (err, video, storageSpace) {
                 if (err) {
                     formData.fileStream.resume();
                     return next(err);
                 }
 
                 var videoDto = videoMapper(video);
-                bus.publishVideoUpload(videoDto, function (err) {
+                var storageSpaceDto = storageMapper(storageSpace);
+                bus.publishVideoUpload(videoDto, storageSpaceDto, function (err) {
                     if (err) {
                         return next(err);
                     }
@@ -98,12 +99,13 @@ module.exports = function (passport) {
             var userId = req.payload.userId;
             var videoId = req.params.videoId;
 
-            videoService.remove(userId, videoId, function (err, video) {
+            videoService.remove(userId, videoId, function (err, video, storageSpace) {
                 if (err) {
                     return next(err);
                 }
 
-                bus.publishVideoRemove({id: videoId, userId: userId, size: video.size}, function (err) {
+                var storageSpaceDto=storageMapper(storageSpace);
+                bus.publishVideoRemove({id: videoId, userId: userId, size: video.size}, storageSpaceDto, function (err) {
                     if (err) {
                         return next(err);
                     }

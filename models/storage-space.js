@@ -22,7 +22,7 @@ storageSpaceSchema.statics.reserveSpace = function (userId, size, callback) {
             if (!result) {
                 callback(new error.BadRequest())
             } else {
-                callback();
+                callback(null, result);
             }
         })
     });
@@ -39,14 +39,15 @@ storageSpaceSchema.statics.releaseSpace = function (userId, size, callback) {
         {
             new: true
         }, function (err, storageSpace) {
-            callback(err, !!storageSpace);
+            callback(err, storageSpace);
         });
 };
 
 var StorageSpace = module.exports = mongoose.model('StorageSpace', storageSpaceSchema);
 
 function createIfNotExist(userId, available, callback) {
-    StorageSpace.findOneAndUpdate({
+    StorageSpace.findOneAndUpdate(
+        {
             userId: userId
         },
         {
@@ -77,6 +78,6 @@ function reserveSpace(userId, size, used, callback) {
         {
             new: true
         }, function (err, storageSpace) {
-            callback(err, !!storageSpace);
+            callback(err, storageSpace);
         });
 }
