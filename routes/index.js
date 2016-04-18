@@ -126,7 +126,7 @@ module.exports = function (passport) {
                 }
 
                 if (!storageSpace) {
-                    return next(new error.NotFound())
+                    return next(new error.NotFound());
                 }
 
                 var storageDto = storageMapper(storageSpace);
@@ -144,6 +144,7 @@ function videoMapper(video) {
 
     return {
         id: video._id,
+        uri: video.uri,
         userId: video.userId,
         name: video.name,
         size: video.size,
