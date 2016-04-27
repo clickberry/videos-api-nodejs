@@ -147,10 +147,11 @@ function videoMapper(video) {
     var encodedScreenshots = video.screenshots.map(encodedScreenshotMapper);
 
     var str = video.videos
-            .map(function (video) {
-                return video.uri;
-            })
-            .join() + id;
+        .map(function (video) {
+            return video.uri;
+        })
+        .concat(id)
+        .join(",");
 
     var sign = signature.sign(str);
 
