@@ -104,8 +104,12 @@ module.exports = function (passport) {
                     return next(err);
                 }
 
-                var storageSpaceDto=storageMapper(storageSpace);
-                bus.publishVideoRemove({id: videoId, userId: userId, size: video.size}, storageSpaceDto, function (err) {
+                var storageSpaceDto = storageMapper(storageSpace);
+                bus.publishVideoRemove({
+                    id: videoId,
+                    userId: userId,
+                    size: video.size
+                }, storageSpaceDto, function (err) {
                     if (err) {
                         return next(err);
                     }
@@ -142,6 +146,20 @@ function videoMapper(video) {
     var encodedVideos = video.videos.map(encodedVideoMapper);
     var encodedScreenshots = video.screenshots.map(encodedScreenshotMapper);
 
+    var str = video.videos
+            .map(function (video) {
+                return video.uri;
+            })
+            .join() + id;
+
+    var sign = signature.sign(str);
+
+    var videos = {
+        id: video._id,
+        encoded: encodedVideos,
+        sign: sign
+    };
+
     return {
         id: video._id,
         uri: video.uri,
@@ -149,7 +167,7 @@ function videoMapper(video) {
         name: video.name,
         size: video.size,
         created: video.created,
-        videos: encodedVideos,
+        videos: videos,
         screenshots: encodedScreenshots
     };
 }
@@ -159,8 +177,7 @@ function encodedVideoMapper(encodedVideo) {
         contentType: encodedVideo.contentType,
         uri: encodedVideo.uri,
         height: encodedVideo.height,
-        width: encodedVideo.width,
-        sign: signature.sign(encodedVideo.uri)
+        width: encodedVideo.width
     };
 }
 
