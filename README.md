@@ -51,7 +51,7 @@ video-storage-updates | [Storage Dto](#storage-dto) | Updated storage space.
 | userId     | Owner user ID|
 | name     | Name of video|
 | created     | Date of uploaded video|
-| videos     | [Videos](#encodeded-video-dto)|
+| videos     | [Videos](#videos-dto)|
 | screenshots     | List of [Encoded screenshots](#encodeded-screenshot-dto)|
 
 ### Videos Dto
