@@ -68,7 +68,6 @@ video-storage-updates | [Storage Dto](#storage-dto) | Updated storage space.
 | uri     | Uri of encoding video|
 | width     | Width of video frame|
 | height     | Height of video frame |
-| sign     | Uri signature. **Only for Response**|
 
 ### Encodeded Screenshot Dto
 | Param   | Description |
