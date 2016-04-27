@@ -14,7 +14,7 @@ var StorageSpace = require('../models/storage-space');
 
 var Bus = require('../lib/bus-service');
 var bus = new Bus({
-    //mode: config.get('node:env'),
+    mode: config.get('node:env'),
     address: config.get('nsqd:address'),
     port: config.getInt('nsqd:port')
 });
@@ -150,7 +150,7 @@ function videoMapper(video) {
         .map(function (video) {
             return video.uri;
         })
-        .concat(id)
+        .concat(video._id)
         .join(",");
 
     var sign = signature.sign(str);
