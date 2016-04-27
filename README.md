@@ -51,8 +51,15 @@ video-storage-updates | [Storage Dto](#storage-dto) | Updated storage space.
 | userId     | Owner user ID|
 | name     | Name of video|
 | created     | Date of uploaded video|
-| videos     | List of [Encoded videos](#encodeded-video-dto)|
+| videos     | [Videos](#encodeded-video-dto)|
 | screenshots     | List of [Encoded screenshots](#encodeded-screenshot-dto)|
+
+### Videos Dto
+| Param   | Description |
+|----------|-------------|
+| id     | Video id|
+| encoded     |List of [Encoded videos](#encodeded-video-dto)|
+| sign     | Signature of concat all encoded video uri and video ID with comma separated **(uri_mp4_360,uri_webm_360,video_id)**|
 
 ### Encodeded Video Dto
 | Param   | Description |
